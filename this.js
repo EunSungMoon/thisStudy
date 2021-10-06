@@ -13,12 +13,7 @@ this가 어떤 값과 연결되는지는 this의 바인딩을 통해 확인 가�
 1. 기본 바인딩
   전역객체 바인딩/ 엄격모드 undefined
 2. 암시적 바인딩
-  객체의 소유/포함 여부 확인
-  =>객체의 프로퍼티로 접근
-  소유/포함<= 참조
-
-  바인딩이 소실되는 경우 전역객체로 바인딩(엄격모드 : undefined)
-  암시적 소실이란?
+  매소드 내부에서의 this 메소드를 호출한 객체와 바인딩
 
 3. 명시적 바인딩
   암시적 바인딩 보다 훨씬 직관적
@@ -37,3 +32,49 @@ this가 어떤 값과 연결되는지는 this의 바인딩을 통해 확인 가�
 
 **********************************************************************************/
 //기본 바인딩
+function hello() {
+  let name = 'eunsung'
+  console.log(this.name);
+}
+hello();
+
+// 암시적 바인딩
+let someone = {
+  name: 'moon',
+  age: 26,
+  whoAnI() {
+    console.log(this); // {name: 'moon', age: 26, whoAmI: f}
+  }
+}
+someone.whoAnI();
+
+//new 바인딩
+function Person(name) {
+  this.name = name;
+}
+
+let me = new Person('moon');
+console.log(me);
+
+//call apply bind
+var name = 'chris'
+var age = 10;
+
+function person() {
+  console.log(`이름 : ${this.name}`);
+  console.log(`나이 : ${this.age}`);
+}
+let mark = {
+  name: 'mark',
+  age: 15,
+}
+let tomas = {
+  name: 'tomas',
+  age: 17
+}
+person();
+person.call(mark); //mark 15
+person.apply(tomas); //tomas 17
+
+let tmp = person.bind(mark); //mark 15
+tmp();
